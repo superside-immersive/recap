@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/reactflow@11.11.4/dist/style.css">
     <style>
 /* ===========================================
    IMMERSIVE RECAP — Stylesheet
@@ -276,6 +277,39 @@ body {
     color: #4a5a52 !important;
     line-height: 1.5 !important;
     margin: 0 !important;
+}
+
+/* ── WORKFLOW SLIDE ── */
+#slide-workflow {
+    background: var(--color-bg-dark) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 40px 60px !important;
+    overflow: hidden !important;
+}
+#slide-workflow .slide-title {
+    font-size: 38px !important;
+    margin-bottom: 4px !important;
+}
+#slide-workflow .slide-subtitle {
+    font-size: 15px !important;
+    color: var(--color-text-muted) !important;
+    margin-bottom: 20px !important;
+}
+#slide-workflow .workflow-container {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    max-height: calc(100vh - 200px) !important;
+}
+#slide-workflow .react-flow__node {
+    font-family: var(--font-main) !important;
+}
+#slide-workflow .react-flow__edge-textbg {
+    rx: 6;
+    ry: 6;
 }
 
 /* ── VASTEROIDS ── */
@@ -1350,7 +1384,16 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SLIDE 6 — PROJECT: VAsteroids
+         SLIDE 6 — WORKFLOW FLOWCHART
+         ═══════════════════════════════════════════ -->
+    <div class="slide-container" id="slide-workflow">
+        <h2 class="slide-title">Our Workflow</h2>
+        <p class="slide-subtitle">How we take projects from brief to delivery — two paths, one team.</p>
+        <div class="workflow-container" id="workflow-root"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         SLIDE 7 — PROJECT: VAsteroids
          ═══════════════════════════════════════════ -->
     <div class="slide-container" id="slide-vasteroids">
         <div class="two-column">
@@ -1379,7 +1422,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SLIDE 7 — PROJECT: Reddit
+         SLIDE 8 — PROJECT: Reddit
          ═══════════════════════════════════════════ -->
     <div class="slide-container" id="slide-reddit">
         <div class="two-column">
@@ -1404,7 +1447,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SLIDE 8 — PROJECT: Albertsons AMC
+         SLIDE 9 — PROJECT: Albertsons AMC
          ═══════════════════════════════════════════ -->
     <div class="slide-container" id="slide-albertsons">
         <div class="two-column">
@@ -1427,7 +1470,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SLIDE 9 — PROJECT: Wurth VR
+         SLIDE 10 — PROJECT: Wurth VR
          ═══════════════════════════════════════════ -->
     <div class="slide-container" id="slide-wurth">
         <div class="two-column">
@@ -1450,7 +1493,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SLIDE 10 — PIPELINE RECAP
+         SLIDE 11 — PIPELINE RECAP
          ═══════════════════════════════════════════ -->
     <div class="slide-container" id="slide-pipeline">
         <div class="pipeline-hero">
@@ -1479,7 +1522,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SLIDE 11 — THE TEAM
+         SLIDE 12 — THE TEAM
          ═══════════════════════════════════════════ -->
     <div class="slide-container" id="slide-team">
         <div class="two-column">
@@ -1490,7 +1533,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                 <div class="team-grid">
                     <div class="team-name"><div class="dot"></div> Federico Perini <span class="role">3D Artist</span></div>
                     <div class="team-name"><div class="dot"></div> Victor Alonso <span class="role">UX / 3D Artist</span></div>
-                    <div class="team-name"><div class="dot"></div> Javier Velazquez <span class="role">Developer</span></div>
+                    <div class="team-name"><div class="dot"></div> Javier Velazquez <span class="role">Creative Technologist</span></div>
                     <div class="team-name"><div class="dot"></div> Carolina Piedrahita <span class="role">Producer</span></div>
                     <div class="team-name team-name--you"><div class="dot"></div> Manuel Palenque <span class="role" style="color:var(--color-primary);opacity:0.8;">Lead · Proposed</span></div>
                 </div>
@@ -1511,7 +1554,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SLIDE 12 — THE VISION
+         SLIDE 13 — THE VISION
          ═══════════════════════════════════════════ -->
     <div class="slide-container" id="slide-vision">
         <div class="section-title-layout">
@@ -1540,7 +1583,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SLIDE 13 — CLOSING: THE PRACTICE IS LIVE
+         SLIDE 14 — CLOSING: THE PRACTICE IS LIVE
          ═══════════════════════════════════════════ -->
     <div class="slide-container" id="slide-whynow">
         <div class="closing-unified">
@@ -1708,6 +1751,12 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
         }
     })();
 </script>
+
+<!-- React + ReactFlow (UMD) for workflow slide -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/reactflow@11.11.4/dist/umd/index.js"></script>
+<script src="workflow-flow.js"></script>
 
 </body>
 </html>
