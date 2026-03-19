@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K68S7LCJ');</script>
+    <!-- End Google Tag Manager -->
+</head>
     <meta charset="UTF-8">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K68S7LCJ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Immersive Recap — Manuel Palenque</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -337,6 +349,25 @@ body {
     pointer-events: none;
 }
 #vasteroids-comment img {
+    width: 100% !important;
+    display: block !important;
+    border-radius: 14px;
+}
+
+#reddit-comment {
+    position: absolute !important;
+    right: 110px;
+    bottom: 72px;
+    width: 245px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.07);
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(22px);
+    pointer-events: none;
+}
+#reddit-comment img {
     width: 100% !important;
     display: block !important;
     border-radius: 14px;
@@ -1432,10 +1463,10 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                 <span class="budget-badge">$76,000 – $90,000</span>
                 <br><br>
                 <ul style="margin-top:8px;">
-                    <li><strong>Magic Mirror 2025</strong> was the most visible experiential hit of last year — and it opened every door that followed.</li>
-                    <li>Now expanding into a full-year event calendar: <strong>Cannes, May events, and more</strong> product roll-outs on the horizon.</li>
-                    <li>We built real trust with this client — they come to us for the extra that only we can deliver.</li>
-                    <li>This is a <strong>long-term, high-margin relationship</strong> that requires continuity of team and leadership.</li>
+                    <li><strong>Magic Mirror 2025</strong> was a clear success and became the launchpad for the next phase of the relationship.</li>
+                    <li>For <strong>2026</strong>, Reddit has already confirmed <strong>two events: OMR and Cannes</strong>, with additional opportunities expected throughout the year.</li>
+                    <li>We proposed a <strong>modular system</strong> so the experience can scale up, add new features, and adapt to each event's size and goals.</li>
+                    <li>This is evolving into a <strong>year-round partnership</strong> with strong creative upside and repeat business potential.</li>
                 </ul>
             </div>
             <div>
@@ -1443,6 +1474,9 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                     <source src="redditmiami.mp4" type="video/mp4">
                 </video>
             </div>
+        </div>
+        <div id="reddit-comment">
+            <img src="image%20copy%202.png" alt="Reddit client comment">
         </div>
     </div>
 
@@ -1714,11 +1748,11 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
         });
     })();
 
-    // VAsteroids floating comment popup — animates in when slide becomes active
+    // Floating comment popups — animate in when slide becomes active
     (function () {
-        function initVasteroidsPopup() {
-            const slide = document.getElementById('slide-vasteroids');
-            const popup = document.getElementById('vasteroids-comment');
+        function initSlidePopup(slideId, popupId, delay) {
+            const slide = document.getElementById(slideId);
+            const popup = document.getElementById(popupId);
             if (!slide || !popup) return;
 
             let wasActive = false;
@@ -1736,7 +1770,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                         gsap.set(popup, { opacity: 0, y: 22 });
                         animTimer = setTimeout(function () {
                             gsap.to(popup, { opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.3)' });
-                        }, 450);
+                        }, delay || 450);
                     }
                 } else {
                     clearTimeout(animTimer);
@@ -1744,10 +1778,16 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                 }
             }).observe(slide, { attributes: true, attributeFilter: ['class'] });
         }
+
+        function initFloatingCommentPopups() {
+            initSlidePopup('slide-vasteroids', 'vasteroids-comment', 450);
+            initSlidePopup('slide-reddit', 'reddit-comment', 450);
+        }
+
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initVasteroidsPopup);
+            document.addEventListener('DOMContentLoaded', initFloatingCommentPopups);
         } else {
-            initVasteroidsPopup();
+            initFloatingCommentPopups();
         }
     })();
 </script>
