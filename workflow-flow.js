@@ -85,6 +85,7 @@
         var useCallback = React.useCallback;
         var useEffect = React.useEffect;
         var useMemo = React.useMemo;
+        var useRef = React.useRef;
         var RF = ReactFlow;
         var h = React.createElement;
 
@@ -222,8 +223,9 @@
         }
 
         // ─── App ───
-        // Exposed setter so the MutationObserver can reset filter on slide enter
-        var _resetFilter = null;
+        // Exposed controls so the MutationObserver can drive the first-entry intro
+        var _playIntroSequence = null;
+        var _cancelIntroSequence = null;
 
         function WorkflowApp() {
             var filterState = useState('sales');
@@ -232,13 +234,13 @@
             var focusState = useState(null);
             var focusIds = focusState[0];
             var setFocusIds = focusState[1];
+            var introTimersRef = useRef([]);
 
-            // Expose reset callback
-            _resetFilter = useCallback(function () {
-                setActiveFilter('sales');
-                var filter = FILTERS.find(function (f) { return f.id === 'sales'; });
-                if (filter && filter.nodes) setFocusIds(filter.nodes);
-                else setFocusIds(null);
+            var clearIntroTimers = useCallback(function () {
+                introTimersRef.current.forEach(function (timerId) {
+                    clearTimeout(timerId);
+                });
+                introTimersRef.current = [];
             }, []);
 
             var visibleIds = useMemo(function () {
@@ -261,6 +263,28 @@
                     setFocusIds(null);
                 }
             }, []);
+
+            _cancelIntroSequence = clearIntroTimers;
+
+            _playIntroSequence = useCallback(function () {
+                clearIntroTimers();
+
+                var sequence = ['path-a', 'path-b', 'sales'];
+                sequence.forEach(function (id, index) {
+                    var timerId = setTimeout(function () {
+                        selectFilter(id);
+                    }, 450 + (index * 900));
+                    introTimersRef.current.push(timerId);
+                });
+            }, [clearIntroTimers, selectFilter]);
+
+            useEffect(function () {
+                return function () {
+                    clearIntroTimers();
+                    _cancelIntroSequence = null;
+                    _playIntroSequence = null;
+                };
+            }, [clearIntroTimers]);
 
             // Filter buttons
             var buttons = FILTERS.map(function (f) {
@@ -318,14 +342,19 @@
             root.style.background = 'transparent';
             ReactDOM.render(h(WorkflowApp), root);
 
-            // Reset to Sales view every time slide becomes active
+            // Run the filter intro only the first time the workflow slide becomes active
             var slide = document.getElementById('slide-workflow');
             if (slide) {
                 var wasActive = false;
+                var hasPlayedIntro = false;
                 new MutationObserver(function () {
                     var isActive = slide.classList.contains('active');
-                    if (isActive && !wasActive && _resetFilter) {
-                        _resetFilter();
+                    if (isActive && !wasActive && !hasPlayedIntro && _playIntroSequence) {
+                        hasPlayedIntro = true;
+                        _playIntroSequence();
+                    }
+                    if (!isActive && wasActive && _cancelIntroSequence) {
+                        _cancelIntroSequence();
                     }
                     wasActive = isActive;
                 }).observe(slide, { attributes: true, attributeFilter: ['class'] });
