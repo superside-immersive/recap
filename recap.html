@@ -1210,6 +1210,118 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
     gap: 10px;
 }
 
+/* ── VIDEO LOADING STATE ── */
+.video-loading-shell {
+    position: relative;
+}
+.video-loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at top, rgba(216,255,133,0.18), transparent 48%),
+        linear-gradient(135deg, rgba(15,31,26,0.92), rgba(26,46,40,0.78));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+.video-loading-shell.video-ready .video-loading-overlay {
+    opacity: 0;
+    visibility: hidden;
+}
+.video-loading-shell.video-error .video-loading-overlay {
+    background:
+        radial-gradient(circle at top, rgba(255,160,160,0.14), transparent 48%),
+        linear-gradient(135deg, rgba(35,18,18,0.94), rgba(26,16,16,0.82));
+}
+.video-loading-card {
+    min-width: 190px;
+    max-width: 260px;
+    padding: 18px 22px;
+    border-radius: 18px;
+    border: 1px solid rgba(216,255,133,0.18);
+    background: rgba(247,249,242,0.05);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.04);
+    text-align: center;
+}
+.video-loading-ring {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(247,249,242,0.12);
+    border-top-color: var(--color-primary);
+    box-shadow: 0 0 18px rgba(216,255,133,0.24);
+    animation: recapVideoSpin 1s linear infinite;
+}
+.video-loading-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 7px;
+}
+.video-loading-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(247,249,242,0.76);
+}
+.video-loading-bar {
+    width: 100%;
+    height: 4px;
+    margin-top: 14px;
+    border-radius: 999px;
+    background: rgba(247,249,242,0.08);
+    overflow: hidden;
+    position: relative;
+}
+.video-loading-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 38%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    animation: recapVideoBar 1.15s ease-in-out infinite;
+}
+.tile-media .video-loading-overlay {
+    inset: auto;
+    top: calc(100% + 14px);
+    left: 50%;
+    width: 300px;
+    height: 170px;
+    border-radius: 16px;
+    transform: translateX(-50%) translateY(-10px) scale(0.96);
+    opacity: 0;
+    visibility: hidden;
+    box-shadow: 0 24px 72px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.08);
+    overflow: hidden;
+}
+.tile-media:hover .video-loading-shell:not(.video-ready) .video-loading-overlay {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+#tile-lightbox .video-loading-overlay {
+    border-radius: 18px;
+}
+
+@keyframes recapVideoSpin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes recapVideoBar {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(320%); }
+}
+
     </style>
 </head>
 <body>
@@ -1310,7 +1422,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
             <div class="reel-right">
                 <!-- Gradient overlay blending left edge into dark panel -->
                 <div class="reel-overlay"></div>
-                <video autoplay loop muted playsinline>
+                <video autoplay loop muted playsinline preload="auto">
                     <source src="reelshort.mp4" type="video/mp4">
                 </video>
             </div>
@@ -1388,7 +1500,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
         <p>Every project runs on a fully AI-enabled pipeline — from first concept to client delivery. Speed and quality aren't a tradeoff anymore.</p>
         <div class="tiled-content">
             <div class="tile tile-media">
-                <video class="hover-vid" src="ai.mp4" muted loop playsinline></video>
+                <video class="hover-vid" src="ai.mp4" muted loop playsinline preload="metadata"></video>
                 <div class="icon"><i class="fa fa-code"></i></div>
                 <h3>AI-Assisted Coding</h3>
                 <p>From rapid prototyping to debugging complex interactive scenes — compressing weeks into days.</p>
@@ -1400,13 +1512,13 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                 <p>AI-generated 3D models and textures at a fraction of traditional production cost.</p>
             </div>
             <div class="tile tile-media">
-                <video class="hover-vid" src="viz.mp4" muted loop playsinline></video>
+                <video class="hover-vid" src="viz.mp4" muted loop playsinline preload="metadata"></video>
                 <div class="icon"><i class="fa fa-chart-bar"></i></div>
                 <h3>Data Viz &amp; Insights</h3>
                 <p>Raw event data into interactive visualizations — live dashboards, AR overlays, and more.</p>
             </div>
             <div class="tile tile-media">
-                <video class="hover-vid" src="mcpfigma.mp4" muted loop playsinline></video>
+                <video class="hover-vid" src="mcpfigma.mp4" muted loop playsinline preload="metadata"></video>
                 <div class="icon"><i class="fa fa-plug"></i></div>
                 <h3>MCP Connections</h3>
                 <p>AI connected directly into <strong>Figma, Blender, Unity</strong> — seamless cross-tool workflows.</p>
@@ -1441,7 +1553,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                 </ul>
             </div>
             <div>
-                <video class="vasteroids-video" autoplay loop muted playsinline>
+                <video class="vasteroids-video" autoplay loop muted playsinline preload="auto">
                     <source src="vasteroids.mp4" type="video/mp4">
                 </video>
             </div>
@@ -1470,7 +1582,7 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                 </ul>
             </div>
             <div>
-                <video class="project-video" autoplay loop muted playsinline>
+                <video class="project-video" autoplay loop muted playsinline preload="auto">
                     <source src="redditmiami.mp4" type="video/mp4">
                 </video>
             </div>
@@ -1679,6 +1791,75 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
 <script src="animations.js"></script>
 <script src="gsap-animations.js"></script>
 <script>
+    function attachVideoLoadingState(video) {
+        if (!video || video.dataset.loadingBound === 'true') return;
+
+        var shell = video.parentElement;
+        if (!shell) return;
+
+        shell.classList.add('video-loading-shell');
+
+        var label = video.getAttribute('data-loading-label') || 'Loading video';
+        var subtitle = video.getAttribute('data-loading-subtitle') || 'Preparing media';
+        var overlay = shell.querySelector(':scope > .video-loading-overlay');
+
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'video-loading-overlay';
+            overlay.innerHTML = [
+                '<div class="video-loading-card">',
+                    '<div class="video-loading-ring"></div>',
+                    '<div class="video-loading-title">Loading</div>',
+                    '<div class="video-loading-subtitle"></div>',
+                    '<div class="video-loading-bar"></div>',
+                '</div>'
+            ].join('');
+            shell.appendChild(overlay);
+        }
+
+        var subtitleEl = overlay.querySelector('.video-loading-subtitle');
+        if (subtitleEl) subtitleEl.textContent = subtitle || label;
+
+        function setReady(isReady) {
+            shell.classList.toggle('video-ready', !!isReady);
+            if (isReady) shell.classList.remove('video-error');
+        }
+
+        function setError() {
+            shell.classList.remove('video-ready');
+            shell.classList.add('video-error');
+            if (subtitleEl) subtitleEl.textContent = 'Still fetching media…';
+        }
+
+        function checkReady() {
+            if (video.readyState >= 2) setReady(true);
+        }
+
+        video.dataset.loadingBound = 'true';
+        if (!video.getAttribute('preload')) {
+            video.setAttribute('preload', video.autoplay ? 'auto' : 'metadata');
+        }
+
+        if (video.readyState < 2) {
+            shell.classList.remove('video-ready');
+        } else {
+            setReady(true);
+        }
+
+        video.addEventListener('loadeddata', checkReady);
+        video.addEventListener('canplay', checkReady);
+        video.addEventListener('playing', checkReady);
+        video.addEventListener('error', setError);
+    }
+
+    function initVideoLoadingStates(root) {
+        (root || document).querySelectorAll('video').forEach(function(video) {
+            attachVideoLoadingState(video);
+        });
+    }
+
+    initVideoLoadingStates(document);
+
     // Hover video play/pause for all .tile-media elements
     document.querySelectorAll('.tile-media').forEach(function(el) {
         var vid = el.querySelector('.hover-vid');
@@ -1702,9 +1883,12 @@ body.grid-view .urgency-grid    { gap: 6px; margin-top: 8px; }
                 v.autoplay = true;
                 v.loop = true;
                 v.muted = true;
+                v.preload = 'auto';
+                v.setAttribute('data-loading-subtitle', 'Opening preview');
                 v.setAttribute('playsinline', '');
                 lbIn.appendChild(v);
                 lbVid = v;
+                attachVideoLoadingState(v);
                 v.play();
             } else {
                 var img = document.createElement('img');
