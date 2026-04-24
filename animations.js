@@ -19,6 +19,33 @@ function refreshSlideNumbers() {
     });
 }
 
+function restartSlideVideos(slideEl) {
+    if (!slideEl) return;
+    const videos = slideEl.querySelectorAll('video');
+    videos.forEach(v => {
+        try {
+            v.pause();
+            v.currentTime = 0;
+            // load() helps when src changed or for tile-media hover videos
+            if (typeof v.load === 'function') {
+                try { v.load(); } catch (_) {}
+            }
+            const playPromise = v.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(() => {});
+            }
+        } catch (_) {}
+    });
+}
+
+function pauseSlideVideos(slideEl) {
+    if (!slideEl) return;
+    const videos = slideEl.querySelectorAll('video');
+    videos.forEach(v => {
+        try { v.pause(); } catch (_) {}
+    });
+}
+
 function showSlide(n, direction = 'next', options = {}) {
     const slides = getSlides();
     const totalSlides = slides.length;
@@ -28,8 +55,14 @@ function showSlide(n, direction = 'next', options = {}) {
     if (isGridView) return;
     if (!options.force && nextIndex === currentIndex) return;
 
-    slides.forEach(slide => slide.classList.remove('active'));
+    slides.forEach(slide => {
+        if (slide.classList.contains('active')) {
+            pauseSlideVideos(slide);
+        }
+        slide.classList.remove('active');
+    });
     slides[nextIndex].classList.add('active');
+    restartSlideVideos(slides[nextIndex]);
 
     currentIndex = nextIndex;
     updateIndicator(totalSlides);

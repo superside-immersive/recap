@@ -845,6 +845,22 @@
         incoming.style.pointerEvents = 'auto';
         window.gsap.set(incoming, { opacity: 0 });
 
+        // Pause outgoing videos & restart incoming videos from 0
+        try {
+            if (outgoing) {
+                outgoing.querySelectorAll('video').forEach(v => { try { v.pause(); } catch(_) {} });
+            }
+            incoming.querySelectorAll('video').forEach(v => {
+                try {
+                    v.pause();
+                    v.currentTime = 0;
+                    if (typeof v.load === 'function') { try { v.load(); } catch(_) {} }
+                    const p = v.play();
+                    if (p && typeof p.catch === 'function') p.catch(() => {});
+                } catch(_) {}
+            });
+        } catch(_) {}
+
         // Fade in incoming slide container
         masterTL.to(incoming, {
             opacity: 1,
