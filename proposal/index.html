@@ -356,6 +356,63 @@ strong { color: inherit; font-weight: 650; }
     line-height: 1.55;
 }
 
+.priority-callout {
+    border: 1px solid rgba(216,255,133,0.22);
+    border-left: 8px solid var(--color-primary);
+    border-radius: 12px;
+    background: rgba(216,255,133,0.07);
+    padding: 30px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.priority-callout__label {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.priority-callout h3 {
+    font-family: var(--font-title);
+    font-size: 46px;
+    font-weight: 400;
+    line-height: 1.02;
+    max-width: 720px;
+}
+
+.priority-callout p {
+    font-size: 22px;
+    line-height: 1.38;
+    color: rgba(247,249,242,0.82);
+    max-width: 780px;
+}
+
+.priority-callout + .signal-row {
+    margin-top: 8px;
+}
+
+.spotlight-layout {
+    display: flex;
+    gap: 22px;
+    align-items: stretch;
+    margin-top: 30px;
+}
+
+.spotlight-layout .priority-callout {
+    flex: 1.35;
+    justify-content: center;
+    min-height: 340px;
+}
+
+.spotlight-layout .signal-list {
+    flex: 1;
+    margin-top: 0;
+    justify-content: center;
+}
+
 .visual-panel {
     min-height: 450px;
     border-radius: 18px;
@@ -664,6 +721,9 @@ body.grid-view .visual-panel__headline, body.grid-view .ask-panel h3 { font-size
 body.grid-view .metric-stack, body.grid-view .matrix { gap: 6px; margin-top: 8px; }
 body.grid-view .signal-row { grid-template-columns: 18px 1fr; gap: 6px; padding: 5px 0; }
 body.grid-view .signal-row .marker { width: 18px; height: 18px; font-size: 8px; }
+body.grid-view .priority-callout { min-height: 0; padding: 10px; gap: 5px; border-left-width: 4px; }
+body.grid-view .priority-callout h3 { font-size: 18px; }
+body.grid-view .priority-callout p { font-size: 8px; }
 
 @media (max-width: 920px) {
     .slide-container { padding: 36px 28px; }
@@ -676,6 +736,9 @@ body.grid-view .signal-row .marker { width: 18px; height: 18px; font-size: 8px; 
     .team-grid { grid-template-columns: 1fr; }
     .metric-stack { grid-template-columns: 1fr; }
     .talent-row { grid-template-columns: 1fr; gap: 8px; }
+    .spotlight-layout { flex-direction: column; }
+    .priority-callout h3 { font-size: 34px; }
+    .priority-callout p { font-size: 18px; }
 }
     </style>
 </head>
@@ -722,9 +785,10 @@ body.grid-view .signal-row .marker { width: 18px; height: 18px; font-size: 8px; 
                 <p class="lead">When creatives see what we can build, motivation spikes. That motivation needs a model, a sales motion, and an internal engine that turns excitement into briefs.</p>
             </div>
             <div class="signal-list">
-                <div class="signal-row">
-                    <div class="marker">1</div>
-                    <div><h3>No working model has been created recently.</h3><p>The last two months have not produced a clear operating strategy for how immersive work should be pitched, scoped, and delivered.</p></div>
+                <div class="priority-callout">
+                    <span class="priority-callout__label">Critical operating gap</span>
+                    <h3>No working model has been created recently.</h3>
+                    <p>The last two months have not produced a clear operating strategy for how immersive work should be pitched, scoped, and delivered.</p>
                 </div>
                 <div class="signal-row">
                     <div class="marker">2</div>
@@ -743,10 +807,16 @@ body.grid-view .signal-row .marker { width: 18px; height: 18px; font-size: 8px; 
             <p class="accent-tag"><i class="fa fa-arrow-trend-down"></i> Positioning risk</p>
             <h2 class="slide-title">Signals of Deprioritization</h2>
             <p class="lead">The area is being pulled away from the center of the offer at the exact moment it should become more visible.</p>
-            <div class="tiled-content">
-                <div class="tile"><div class="icon"><i class="fa fa-tag"></i></div><h3>Language has shifted.</h3><p>The name "immersive" was removed from the briefs channel, weakening the signal that this is a distinct offer.</p></div>
-                <div class="tile"><div class="icon"><i class="fa fa-comments"></i></div><h3>Perspective is missing.</h3><p>Technical and creative input from the people closest to this work has not been consistently used in strategic decisions.</p></div>
-                <div class="tile"><div class="icon"><i class="fa fa-bullhorn"></i></div><h3>No promotion engine exists.</h3><p>There is no active internal campaign, sales enablement path, or visible push to grow the space.</p></div>
+            <div class="spotlight-layout">
+                <div class="priority-callout">
+                    <span class="priority-callout__label">Offer visibility risk</span>
+                    <h3>Language has shifted.</h3>
+                    <p>The name "immersive" was removed from the briefs channel, weakening the signal that this is a distinct offer.</p>
+                </div>
+                <div class="signal-list">
+                    <div class="signal-row"><div class="marker"><i class="fa fa-comments"></i></div><div><h3>Perspective is missing.</h3><p>Technical and creative input from the people closest to this work has not been consistently used in strategic decisions.</p></div></div>
+                    <div class="signal-row"><div class="marker"><i class="fa fa-bullhorn"></i></div><div><h3>No promotion engine exists.</h3><p>There is no active internal campaign, sales enablement path, or visible push to grow the space.</p></div></div>
+                </div>
             </div>
         </div>
     </div>
